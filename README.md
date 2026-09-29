@@ -6,6 +6,18 @@
 
 The [BSIPA](https://github.com/nike4613/BeatSaber-IPA-Reloaded) plugin for ScoreSaber on PC 
 
+## About this fork
+
+This is a personal, unofficial fork of [ScoreSaber/pc-mod](https://github.com/ScoreSaber/pc-mod), porting the plugin (and its [Legato](https://github.com/ScoreSaber/legato) compatibility dependency) to Beat Saber 1.45.1, which isn't supported by the upstream project yet. It's distributed here under the same [MIT License](LICENSE) as upstream — all credit for the original mod goes to the ScoreSaber team.
+
+**On leaderboard fair play:** before doing this, we checked whether running a self-built copy against a newer game version could be considered cheating or against the rules:
+
+- ScoreSaber's [community rules](https://wiki.scoresaber.com/rules.html) prohibit third-party utilities used *to gain an advantage* (scripts, cheats, bots) — nothing there concerns running a legitimately-built copy of ScoreSaber's own official client.
+- More concretely, the client code itself won't let an unofficial build cheat by default: `ScoreSaberApiClient.UploadScore` hard-refuses to submit a score (`"ScoreSaber upload trust is unavailable"`) unless the build carries either real ScoreSaber-issued CI credentials or a development token (see `Core/Api/UploadTrust/`). There's no fallback path around this — it's a real gate, not just a policy.
+- ScoreSaber's own README already anticipates exactly this situation: third-party/dev builds are expected to request a dev token from `developers@scoresaber.com` (see below) rather than upload untrusted. Not doing so is called out as "being rude," not cheating.
+
+So: building, browsing leaderboards, and personal use are unaffected either way. Actually uploading real scores from this fork requires requesting a dev token the normal way, same as any other unofficial build — that hasn't been done, so score upload is currently expected to be refused by the client itself until it is.
+
 ## Local Build Settings
 
 If you want to be able to upload scores from a dev build of ScoreSaber (without being rude about it) you're going to need a dev token. Feel free to contact one of our admins for one. You can find their social contact information [here](https://scoresaber.com/team) of if emails more your thing, here ya go: developers@scoresaber.com
