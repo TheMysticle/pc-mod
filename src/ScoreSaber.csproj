@@ -471,7 +471,9 @@
     <!-- As of 1.45.1 the game no longer ships Libs\protobuf-net.dll (used by ScoreSaber's own Live
          spectating/competing protocol; unrelated to anything the game itself uses protobuf for),
          so bundle our own copy alongside the plugin instead of relying on the game to provide it. -->
-    <OutputCopy Condition="!Exists('$(GameReferences)\Libs\protobuf-net.dll') AND '$(Pkgprotobuf_net)' != ''" Include="$(Pkgprotobuf_net)\lib\net462\protobuf-net.dll" OutputPath="Libs\protobuf-net.dll" />
+    <!-- NuGet generates the "Pkg<PackageId>" property preserving dashes verbatim (confirmed via
+         obj/ScoreSaber.csproj.nuget.g.props: "Pkgprotobuf-net", not "Pkgprotobuf_net") -->
+    <OutputCopy Condition="!Exists('$(GameReferences)\Libs\protobuf-net.dll') AND '$(Pkgprotobuf-net)' != ''" Include="$(Pkgprotobuf-net)\lib\net462\protobuf-net.dll" OutputPath="Libs\protobuf-net.dll" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="protobuf-net" Condition="!Exists('$(GameReferences)\Libs\protobuf-net.dll')" GeneratePathProperty="true">
