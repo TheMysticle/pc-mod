@@ -480,12 +480,24 @@
          the moment anything reflects over its types (confirmed on real hardware, via
          SiraUtil.Zenject.Zenjector.UseAutoBinder calling Assembly.GetTypes()). Bundle both. -->
     <OutputCopy Condition="!Exists('$(GameReferences)\Libs\protobuf-net.dll') AND '$(Pkgprotobuf-net_Core)' != ''" Include="$(Pkgprotobuf-net_Core)\lib\net462\protobuf-net.Core.dll" OutputPath="Libs\protobuf-net.Core.dll" />
+    <!-- protobuf-net.Core's buffer pooling needs System.Buffers, which the game's Mono runtime
+         doesn't provide at all (confirmed on real hardware: TypeLoadException loading
+         'ProtoBuf.BufferPool:_pool' because 'System.Buffers, Version=4.0.3.0' couldn't be found,
+         the moment ScoreSaber's Live/Ludus feature tries to serialize a packet). Strict strong-name
+         loading means the bundled DLL's own AssemblyVersion must be exactly 4.0.3.0, not just any
+         System.Buffers, verified via monodis across every System.Buffers package version restored
+         here: only 4.5.1's net461 build reports Version 4.0.3.0 (4.4.0 reports 4.0.2.0, 4.6.0
+         reports 4.0.4.0), so pin to that exact package version for this specific DLL. -->
+    <OutputCopy Condition="!Exists('$(GameReferences)\Libs\protobuf-net.dll') AND '$(PkgSystem_Buffers)' != ''" Include="$(PkgSystem_Buffers)\lib\net461\System.Buffers.dll" OutputPath="Libs\System.Buffers.dll" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="protobuf-net" Condition="!Exists('$(GameReferences)\Libs\protobuf-net.dll')" GeneratePathProperty="true">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="protobuf-net.Core" Condition="!Exists('$(GameReferences)\Libs\protobuf-net.dll')" GeneratePathProperty="true">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="System.Buffers" Condition="!Exists('$(GameReferences)\Libs\protobuf-net.dll')" GeneratePathProperty="true">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="LegatoBS" PrivateAssets="all" />
