@@ -105,7 +105,7 @@ namespace ScoreSaber.Features.Live.Compete.UI.FlowCoordinators {
             _competeGameplayState.LiveGameplayActiveChanged += LiveGameplayActiveChanged;
         }
 
-        protected override void DidActivate(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling) {
+        public override void DidActivate(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling) {
             SubscribeTournamentBrowserEvents();
 
             if (firstActivation) {
@@ -115,7 +115,7 @@ namespace ScoreSaber.Features.Live.Compete.UI.FlowCoordinators {
             }
         }
 
-        protected override void DidDeactivate(bool removedFromHierarchy, bool screenSystemDisabling) {
+        public override void DidDeactivate(bool removedFromHierarchy, bool screenSystemDisabling) {
             UnsubscribeTournamentBrowserEvents();
 
             if (removedFromHierarchy) {
@@ -137,7 +137,7 @@ namespace ScoreSaber.Features.Live.Compete.UI.FlowCoordinators {
             }
         }
 
-        protected override void BackButtonWasPressed(ViewController topViewController) {
+        public override void BackButtonWasPressed(ViewController topViewController) {
             if (_loadingTransitioning) {
                 return;
             }

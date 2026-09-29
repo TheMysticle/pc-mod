@@ -16,7 +16,7 @@ namespace ScoreSaber.Features.MainMenu.Settings {
         private SettingsService _settings;
         FlowCoordinator IScoreSaberFlowCoordinator.FlowCoordinator => this;
 
-        protected override void DidActivate(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling) {
+        public override void DidActivate(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling) {
 
             if (firstActivation) {
                 SetTitle("ScoreSaber Settings");
@@ -35,7 +35,7 @@ namespace ScoreSaber.Features.MainMenu.Settings {
             Plugin.Log.Debug("ScoreSaberSettingsFlowCoordinator Setup");
         }
 
-        protected override void BackButtonWasPressed(ViewController topViewController) {
+        public override void BackButtonWasPressed(ViewController topViewController) {
 
             SetLeftScreenViewController(null, ViewController.AnimationType.None);
             SetRightScreenViewController(null, ViewController.AnimationType.None);

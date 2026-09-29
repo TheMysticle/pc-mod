@@ -255,7 +255,7 @@
       <HintPath>$(GameReferences)\Libs\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="protobuf-net">
+    <Reference Include="protobuf-net" Condition="Exists('$(GameReferences)\Libs\protobuf-net.dll')">
       <HintPath>$(GameReferences)\Libs\protobuf-net.dll</HintPath>
       <Private>False</Private>
     </Reference>
@@ -468,8 +468,15 @@
   <ItemGroup>
     <OutputCopy Include="$(OutputPath)$(AssemblyName).dll" OutputPath="Plugins\$(AssemblyName).dll" />
     <OutputCopy Include="$(OutputPath)$(AssemblyName).pdb" OutputPath="Plugins\$(AssemblyName).pdb" />
+    <!-- As of 1.45.1 the game no longer ships Libs\protobuf-net.dll (used by ScoreSaber's own Live
+         spectating/competing protocol; unrelated to anything the game itself uses protobuf for),
+         so bundle our own copy alongside the plugin instead of relying on the game to provide it. -->
+    <OutputCopy Condition="!Exists('$(GameReferences)\Libs\protobuf-net.dll') AND '$(Pkgprotobuf_net)' != ''" Include="$(Pkgprotobuf_net)\lib\net462\protobuf-net.dll" OutputPath="Libs\protobuf-net.dll" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="protobuf-net" Condition="!Exists('$(GameReferences)\Libs\protobuf-net.dll')" GeneratePathProperty="true">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="LegatoBS" PrivateAssets="all" />
     <PackageReference Include="BeatSaberModdingTools.Tasks">
       <PrivateAssets>all</PrivateAssets>
