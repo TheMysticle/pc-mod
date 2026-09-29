@@ -164,7 +164,12 @@ namespace ScoreSaber.Features.Live.Compete.Services {
         }
 
         private static float RecommendedFpsThreshold() {
+            // XRDevice.refreshRate is marked obsolete (favoring UnityEngine.XRModule) but still functions;
+            // TreatWarningsAsErrors turns that into a hard build failure. Not a 1.45.1 API break -- suppressing
+            // locally rather than migrating, since that's a separate pre-existing cleanup outside this port's scope.
+#pragma warning disable CS0618
             float refreshRate = UnityEngine.XR.XRDevice.refreshRate;
+#pragma warning restore CS0618
             if (refreshRate <= 0f) {
                 refreshRate = FallbackRefreshRate;
             }
