@@ -6,6 +6,7 @@
   <ItemGroup>
     <PackageVersion Include="LegatoBS" Version="0.1.0-bs1.45.1" />
     <PackageVersion Include="protobuf-net" Version="3.2.30" />
+    <PackageVersion Include="protobuf-net.Core" Version="3.2.30" />
     <PackageVersion Include="BeatSaberModdingTools.Tasks" Version="2.0.0-beta4" />
     <PackageVersion Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.1" />
   </ItemGroup>
