@@ -16,7 +16,7 @@ This is a personal, unofficial fork of [ScoreSaber/pc-mod](https://github.com/Sc
 - More concretely, the client code itself won't let an unofficial build cheat by default: `ScoreSaberApiClient.UploadScore` hard-refuses to submit a score (`"ScoreSaber upload trust is unavailable"`) unless the build carries either real ScoreSaber-issued CI credentials or a development token (see `Core/Api/UploadTrust/`). There's no fallback path around this — it's a real gate, not just a policy.
 - ScoreSaber's own README already anticipates exactly this situation: third-party/dev builds are expected to request a dev token from `developers@scoresaber.com` (see below) rather than upload untrusted. Not doing so is called out as "being rude," not cheating.
 
-So: building, browsing leaderboards, and personal use are unaffected either way. Actually uploading real scores from this fork requires requesting a dev token the normal way, same as any other unofficial build — that hasn't been done, so score upload is currently expected to be refused by the client itself until it is.
+**Current status: viewing only, no score uploads.** No dev token has been requested for this fork, so per the above, score upload is expected to be refused by the client itself. This build is used for browsing leaderboards and personal stats only — not for submitting scores — until a dev token is requested and granted, if that's ever pursued.
 
 ## Local Build Settings
 
