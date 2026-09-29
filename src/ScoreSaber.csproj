@@ -489,6 +489,18 @@
          here: only 4.5.1's net461 build reports Version 4.0.3.0 (4.4.0 reports 4.0.2.0, 4.6.0
          reports 4.0.4.0), so pin to that exact package version for this specific DLL. -->
     <OutputCopy Condition="!Exists('$(GameReferences)\Libs\protobuf-net.dll') AND '$(PkgSystem_Buffers)' != ''" Include="$(PkgSystem_Buffers)\lib\net461\System.Buffers.dll" OutputPath="Libs\System.Buffers.dll" />
+    <!-- Read protobuf-net.Core.dll's own AssemblyRef table directly (via monodis) rather
+         than guess from nuspec minimums: it references System.Memory 4.0.1.2 and
+         System.Collections.Immutable 7.0.0.0 exactly. System.Memory in turn references
+         System.Numerics.Vectors 4.1.4.0 and System.Runtime.CompilerServices.Unsafe 4.0.4.1 exactly
+         (its System.Numerics dependency is a real framework assembly, already present). Each
+         package version below was chosen by checking real AssemblyVersions across every cached
+         candidate the same way as System.Buffers above. Confirmed via real hardware testing that
+         this is the full chain (each fix surfaced the next missing one in turn). -->
+    <OutputCopy Condition="!Exists('$(GameReferences)\Libs\protobuf-net.dll') AND '$(PkgSystem_Collections_Immutable)' != ''" Include="$(PkgSystem_Collections_Immutable)\lib\net462\System.Collections.Immutable.dll" OutputPath="Libs\System.Collections.Immutable.dll" />
+    <OutputCopy Condition="!Exists('$(GameReferences)\Libs\protobuf-net.dll') AND '$(PkgSystem_Memory)' != ''" Include="$(PkgSystem_Memory)\lib\net461\System.Memory.dll" OutputPath="Libs\System.Memory.dll" />
+    <OutputCopy Condition="!Exists('$(GameReferences)\Libs\protobuf-net.dll') AND '$(PkgSystem_Numerics_Vectors)' != ''" Include="$(PkgSystem_Numerics_Vectors)\lib\net46\System.Numerics.Vectors.dll" OutputPath="Libs\System.Numerics.Vectors.dll" />
+    <OutputCopy Condition="!Exists('$(GameReferences)\Libs\protobuf-net.dll') AND '$(PkgSystem_Runtime_CompilerServices_Unsafe)' != ''" Include="$(PkgSystem_Runtime_CompilerServices_Unsafe)\lib\net461\System.Runtime.CompilerServices.Unsafe.dll" OutputPath="Libs\System.Runtime.CompilerServices.Unsafe.dll" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="protobuf-net" Condition="!Exists('$(GameReferences)\Libs\protobuf-net.dll')" GeneratePathProperty="true">
@@ -498,6 +510,18 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="System.Buffers" Condition="!Exists('$(GameReferences)\Libs\protobuf-net.dll')" GeneratePathProperty="true">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="System.Collections.Immutable" Condition="!Exists('$(GameReferences)\Libs\protobuf-net.dll')" GeneratePathProperty="true">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="System.Memory" Condition="!Exists('$(GameReferences)\Libs\protobuf-net.dll')" GeneratePathProperty="true">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="System.Numerics.Vectors" Condition="!Exists('$(GameReferences)\Libs\protobuf-net.dll')" GeneratePathProperty="true">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Condition="!Exists('$(GameReferences)\Libs\protobuf-net.dll')" GeneratePathProperty="true">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="LegatoBS" PrivateAssets="all" />

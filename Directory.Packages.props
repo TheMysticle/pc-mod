@@ -11,6 +11,21 @@
          4.0.3.0 (confirmed via monodis), matching the exact strong-name the runtime requests.
          Other versions of this package build a DLL with a different AssemblyVersion and won't load. -->
     <PackageVersion Include="System.Buffers" Version="4.5.1" />
+    <!-- Below, all pinned the same way: exact package version chosen by checking each candidate's
+         real AssemblyVersion via monodis against what protobuf-net.Core.dll / System.Memory.dll
+         actually reference (see the OutputCopy comments in ScoreSaber.csproj). -->
+    <PackageVersion Include="System.Collections.Immutable" Version="7.0.0" />
+    <PackageVersion Include="System.Memory" Version="4.5.5" />
+    <PackageVersion Include="System.Numerics.Vectors" Version="4.5.0" />
+    <!-- protobuf-net.Core's own direct reference wants exactly AssemblyVersion 4.0.4.1 (from
+         System.Memory 4.5.5's own reference), but System.Collections.Immutable 7.0.0 (also a direct
+         protobuf-net.Core reference, across every one of its TFM builds) itself needs
+         Version 6.0.0.0 or higher, a genuine conflict in protobuf-net.Core 3.2.30's own dependency graph,
+         not something introduced by version choices here. Pinning to 6.0.0 (AssemblyVersion 6.0.0.0)
+         satisfies NuGet's own constraint solver; Unity's Mono runtime is commonly lenient about
+         plugin assembly version mismatches (unlike strict .NET Framework binding), so this is worth
+         testing on real hardware before assuming a stricter fix (e.g. a binding redirect) is needed. -->
+    <PackageVersion Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
     <PackageVersion Include="BeatSaberModdingTools.Tasks" Version="2.0.0-beta4" />
     <PackageVersion Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.1" />
   </ItemGroup>
